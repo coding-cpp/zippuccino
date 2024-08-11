@@ -6,7 +6,7 @@ namespace zippuccino {
 
 namespace config {
 
-static const uint32_t POLYNOMIAL = 0x04C11DB7;
+static const uint32_t POLYNOMIAL = 0xEDB88320;
 
 static const uint32_t LOCAL_FILE_HEADER_SIGNATURE = 0x04034b50;
 static const uint32_t CENTRAL_DIRECTORY_HEADER_SIGNATURE = 0x02014b50;

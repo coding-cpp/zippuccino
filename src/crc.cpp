@@ -41,8 +41,8 @@ uint32_t zippuccino::crc::compute(const std::string &path) {
     std::streamsize bytesRead = file.gcount();
     for (std::streamsize i = 0; i < bytesRead; i++) {
       crc32 = (crc32 >> 8) ^
-              zippuccino::crc::table[(crc32 & 0xFF) ^
-                                     static_cast<uint8_t>(buffer[i])];
+              zippuccino::crc::table[(crc32 ^ static_cast<uint8_t>(buffer[i])) &
+                                     0xFF];
     }
   }
 
