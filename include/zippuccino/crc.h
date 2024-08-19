@@ -21,7 +21,7 @@ extern uint32_t table[256];
 
 void init();
 
-uint32_t compute(const std::string &path);
+uint32_t compute(const std::string &path) noexcept(false);
 
 } // namespace crc
 

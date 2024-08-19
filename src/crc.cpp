@@ -23,7 +23,7 @@ void zippuccino::crc::init() {
   }
 }
 
-uint32_t zippuccino::crc::compute(const std::string &path) {
+uint32_t zippuccino::crc::compute(const std::string &path) noexcept(false) {
   if (!zippuccino::crc::initialized) {
     zippuccino::crc::init();
   }
@@ -36,17 +36,27 @@ uint32_t zippuccino::crc::compute(const std::string &path) {
   uint32_t crc32 = 0xFFFFFFFF;
   std::ifstream file(path, std::ios::binary);
   std::vector<char> buffer(zippuccino::crc::bufferSize);
-  while (file.read(buffer.data(), zippuccino::crc::bufferSize) ||
-         file.gcount() > 0) {
-    std::streamsize bytesRead = file.gcount();
-    for (std::streamsize i = 0; i < bytesRead; i++) {
-      crc32 = (crc32 >> 8) ^
-              zippuccino::crc::table[(crc32 ^ static_cast<uint8_t>(buffer[i])) &
-                                     0xFF];
+
+  try {
+    while (file.read(buffer.data(), zippuccino::crc::bufferSize) ||
+           file.gcount() > 0) {
+      std::streamsize bytesRead = file.gcount();
+      for (std::streamsize i = 0; i < bytesRead; i++) {
+        crc32 =
+            (crc32 >> 8) ^
+            zippuccino::crc::table[(crc32 ^ static_cast<uint8_t>(buffer[i])) &
+                                   0xFF];
+      }
     }
+    crc32 ^= 0xFFFFFFFF;
+  } catch (const std::exception &e) {
+    logger::error("Error reading file: " + path + " - " + std::string(e.what()),
+                  "uint32_t zippuccino::crc::compute(const std::string &path)");
+  } catch (...) {
+    logger::error("Error reading file: " + path,
+                  "uint32_t zippuccino::crc::compute(const std::string &path)");
   }
 
-  crc32 ^= 0xFFFFFFFF;
   file.close();
   return crc32;
 }
