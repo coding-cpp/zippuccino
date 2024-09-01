@@ -32,17 +32,17 @@ void zippuccino::Zipper::add(const std::string &path) noexcept(false) {
   return;
 }
 
-void zippuccino::Zipper::zip() {
+void zippuccino::Zipper::zip() noexcept(true) {
   this->count = this->paths.size();
   this->iterator = this->paths.begin();
   return;
 }
 
-bool zippuccino::Zipper::isFinished() {
+bool zippuccino::Zipper::isFinished() noexcept(true) {
   return this->iterator == this->paths.end();
 }
 
-std::string zippuccino::Zipper::getHeader() {
+std::string zippuccino::Zipper::getHeader() noexcept(true) {
   std::string zipPath = this->iterator->first;
   std::string systemPath = this->iterator->second;
   uint32_t fileSize = brewtils::os::file::size(systemPath);
@@ -88,13 +88,13 @@ std::string zippuccino::Zipper::getHeader() {
   return headers.str();
 }
 
-std::string zippuccino::Zipper::getCurrentFile() {
+std::string zippuccino::Zipper::getCurrentFile() noexcept(true) {
   std::string systemPath = this->iterator->second;
   this->iterator++;
   return systemPath;
 }
 
-std::string zippuccino::Zipper::getFooter() {
+std::string zippuccino::Zipper::getFooter() noexcept(true) {
   uint32_t centralDirectorySize = 0;
   uint16_t fileInfoSize;
   std::ostringstream footer;

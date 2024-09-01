@@ -25,13 +25,13 @@ public:
   ~Zipper();
 
   void add(const std::string &path) noexcept(false);
-  void zip();
+  void zip() noexcept(true);
 
-  bool isFinished();
+  bool isFinished() noexcept(true);
 
-  std::string getHeader();
-  std::string getCurrentFile();
-  std::string getFooter();
+  std::string getHeader() noexcept(true);
+  std::string getCurrentFile() noexcept(true);
+  std::string getFooter() noexcept(true);
 };
 
 } // namespace zippuccino

@@ -19,7 +19,7 @@ static const size_t bufferSize = 4096;
 
 extern uint32_t table[256];
 
-void init();
+void init() noexcept(true);
 
 uint32_t compute(const std::string &path) noexcept(false);
 

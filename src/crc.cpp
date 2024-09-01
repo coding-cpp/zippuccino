@@ -4,7 +4,7 @@ bool zippuccino::crc::initialized = false;
 
 uint32_t zippuccino::crc::table[256];
 
-void zippuccino::crc::init() {
+void zippuccino::crc::init() noexcept(true) {
   if (zippuccino::crc::initialized) {
     return;
   }
