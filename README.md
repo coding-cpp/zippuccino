@@ -13,19 +13,26 @@ A simple, fast and lightweight C++ zipping library, all without any external dep
 1. Clone the repository:
 
    ```bash
-   git clone --recurse-submodules git@github.com:coding-cpp/zippuccino
+   git clone git@github.com:coding-cpp/zippuccino
+   cd zippuccino
    ```
 
-2. Build the project:
+2. Clone the submodules:
 
    ```bash
-   cd zippuccino
+   git submodule init
+   git submodule update
+   ```
+
+3. Build the project:
+
+   ```bash
    mkdir build && cd build
    cmake ..
    make
    ```
 
-3. Run the project to zip thhe project itself :)
+4. Run the project to zip the project itself :)
 
    ```bash
    ./zippuccino
