@@ -11,10 +11,13 @@
 
 namespace zippuccino {
 
+class Zipper;
+
 class Zipper {
 private:
   uint32_t offset;
   uint16_t count;
+  uint64_t size;
 
   std::map<std::string, std::string> paths;
   std::map<std::string, std::string>::iterator iterator;
@@ -28,6 +31,8 @@ public:
   void zip() noexcept(true);
 
   bool isFinished() noexcept(true);
+
+  uint64_t getSize() noexcept(true);
 
   std::string getHeader() noexcept(true);
   std::string getCurrentFile() noexcept(true);
