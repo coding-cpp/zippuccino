@@ -1,6 +1,6 @@
 #include <zippuccino/zipper.h>
 
-zippuccino::Zipper::Zipper() : offset(0), count(0) { return; }
+zippuccino::Zipper::Zipper() : offset(0), count(0), size(0) { return; }
 
 zippuccino::Zipper::~Zipper() { return; }
 
@@ -40,6 +40,27 @@ void zippuccino::Zipper::zip() noexcept(true) {
 
 bool zippuccino::Zipper::isFinished() noexcept(true) {
   return this->iterator == this->paths.end();
+}
+
+uint64_t zippuccino::Zipper::getSize() noexcept(true) {
+  if (this->size > 0) {
+    return this->size;
+  }
+
+  std::map<std::string, std::string>::iterator originalIterator =
+      this->iterator;
+  this->iterator = this->paths.begin();
+  constexpr uint64_t FILE_INFO_SIZE =
+      10 * sizeof(uint32_t) + 18 * sizeof(uint16_t);
+  while (!this->isFinished()) {
+    this->size += FILE_INFO_SIZE;
+    this->size += 2 * this->iterator->first.size();
+    this->size += brewtils::os::file::size(this->getCurrentFile());
+  }
+
+  this->size += 3 * sizeof(uint32_t) + 5 * sizeof(uint16_t);
+  this->iterator = originalIterator;
+  return this->size;
 }
 
 std::string zippuccino::Zipper::getHeader() noexcept(true) {
